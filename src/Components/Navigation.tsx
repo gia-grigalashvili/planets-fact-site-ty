@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import data from "../data.json";
 import styled from "styled-components";
 import hamburger from "/public/img/icon-hamburger.svg";
@@ -26,13 +27,15 @@ function Navigation() {
       <Nav className={`nav ${isOpen ? "open" : ""}`}>
         <ul>
           {data.map((planet, index) => (
-            <li key={index}>
-              <div className="maindiv">
-                <Color planetColor={planet.images.color}></Color>
-                <h1>{planet.name}</h1>
-              </div>
-              <img src={row} alt="" />
-            </li>
+            <Link key={index} to={`/${planet.name}`}>
+              <li>
+                <div className="maindiv">
+                  <Color planetColor={planet.images.color} />
+                  <h1>{planet.name}</h1>
+                </div>
+                <img src={row} alt="" />
+              </li>
+            </Link>
           ))}
         </ul>
       </Nav>
@@ -118,10 +121,16 @@ const Nav = styled.nav`
     display: flex;
     gap: 20px;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
+
 interface ColorProps {
   planetColor: string;
 }
+
 const Color = styled.div<ColorProps>`
   width: 20px;
   height: 20px;
