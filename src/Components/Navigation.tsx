@@ -49,6 +49,7 @@ const Header = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .headername {
@@ -101,7 +102,7 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 13px;
     gap: 5px;
     cursor: pointer;
     font-family: "League Spartan", sans-serif;
