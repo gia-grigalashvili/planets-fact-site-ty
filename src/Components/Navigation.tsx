@@ -83,9 +83,11 @@ const Nav = styled.nav`
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
+  z-index: -1;
 
   &.open {
     transform: translateX(0);
+    z-index: 10;
   }
 
   ul {
@@ -93,6 +95,7 @@ const Nav = styled.nav`
     gap: 20px;
     display: flex;
     flex-direction: column;
+    background: #070724;
     padding: 20px;
     margin: 0;
   }
