@@ -1,8 +1,12 @@
 import "./App.css";
-import Header "./Components/Header"
-import He
+import Navigation from "./Components/Navigation";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Navigation />
+    </>
+  );
 }
 
 export default App;
