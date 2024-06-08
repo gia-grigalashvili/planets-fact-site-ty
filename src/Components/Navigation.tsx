@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import data from "../data.json";
 import styled from "styled-components";
@@ -27,7 +27,7 @@ function Navigation() {
       <Nav className={`nav ${isOpen ? "open" : ""}`}>
         <ul>
           {data.map((planet, index) => (
-            <Link key={index} to={`/${planet.name}`}>
+            <Link key={index} to={`/${planet.name.toLowerCase()}`}>
               <li>
                 <div className="maindiv">
                   <Color planetColor={planet.images.color} />
