@@ -4,7 +4,35 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
 import arrow from "/public/assets/icon-source.svg";
-
+interface Planet {
+  name: string;
+  rotation: string;
+  revolution: string;
+  radius: string;
+  temperature: string;
+  images: {
+    planet: string;
+    internal: string;
+    geology: string;
+  };
+  overview: {
+    content: string;
+    source: string;
+  };
+  structure: {
+    content: string;
+    source: string;
+  };
+  geology: {
+    content: string;
+    source: string;
+  };
+  design: {
+    overview_mobile: string;
+    overview_tablet: string;
+    overview_desktop: string;
+  };
+}
 function Typesforplanet() {
   const [images, setImages] = useState("overview");
   const params = useParams();
@@ -32,65 +60,69 @@ function Typesforplanet() {
   const [opacity, setOpacity] = useState(true);
 
   return (
-    <Maindiv>
-      <div className="header-box">
-        <span onClick={handleOverview}>OVERVIEW</span>
-        <span onClick={handleStructure}>Structure</span>
-        <span onClick={handleGeology}>Surface</span>
-      </div>
-      <div className="info">
-        <div>
-          <img
-            // style={{ width }}
-            src={
-              (images == "structure" && planet?.images.planet) ||
-              (images == "geology" && planet?.images.internal) ||
-              (images == "overview" && planet?.images.planet)
-            }
-            alt={planetName}
-          />
-          {images == "geology" ? <img src={planet?.images.planet} /> : null}
+    <Maindiv planet={planet}>
+      <div className="planets-div">
+        <div className="header-box">
+          <span onClick={handleOverview}>OVERVIEW</span>
+          <span onClick={handleStructure}>Structure</span>
+          <span onClick={handleGeology}>Surface</span>
         </div>
-      </div>
-      <div className="information">
-        <div className="only">
-          <h1>{planet?.name}</h1>
-          <p>{planet?.overview?.content}</p>
-          <h4 className="wikiped">
-            Source :
-            <a
-              href={
-                (images == "structure" && planet?.structure.source) ||
-                (images == "geology" && planet?.geology.source) ||
-                (images == "overview" && planet?.images.geology)
+        <div className="info">
+          <div>
+            <img
+              // style={{ width: planet?.design?.overview_mobile }}
+              className="planetstyle"
+              src={
+                (images == "structure" && planet?.images.internal) ||
+                (images == "geology" && planet?.images.planet) ||
+                (images == "overview" && planet?.images.planet)
               }
-            >
-              <p>wikipedia</p>
-            </a>
-            <div>
-              <img src={arrow} alt="" />
-            </div>
-          </h4>
+              alt={planetName}
+            />
+            {images == "geology" ? (
+              <img src={planet?.images.geology} className="planet-geogly" />
+            ) : null}
+          </div>
         </div>
-        <div className="info-2">
-          <div onClick={handleOverview} className="infooo">
-            <p>
-              01 <span>OVERVIEW</span>
-            </p>
+        <div className="information">
+          <div className="only">
+            <h1>{planet?.name}</h1>
+            <p>{planet?.overview?.content}</p>
+            <h4 className="wikiped">
+              Source :
+              <a
+                href={
+                  (images == "structure" && planet?.structure.source) ||
+                  (images == "geology" && planet?.geology.source) ||
+                  (images == "overview" && planet?.images.geology)
+                }
+              >
+                <p>wikipedia</p>
+              </a>
+              <div>
+                <img src={arrow} alt="" />
+              </div>
+            </h4>
           </div>
-          <div onClick={handleStructure} className="infooo">
-            <p>
-              02 <span>Structure</span>
-            </p>
-          </div>
-          <div onClick={handleGeology} className="infooo">
-            <p>
-              03 <span>Surface</span>
-            </p>
+          <div className="info-2">
+            <div onClick={handleOverview} className="infooo">
+              <p>
+                01 <span>OVERVIEW</span>
+              </p>
+            </div>
+            <div onClick={handleStructure} className="infooo">
+              <p>
+                02 <span>Structure</span>
+              </p>
+            </div>
+            <div onClick={handleGeology} className="infooo">
+              <p>
+                03 <span>Surface</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-
       <div className="botombox">
         <div>
           <span className="common-info-title rot-time">ROTATION TIME</span>
@@ -113,13 +145,28 @@ function Typesforplanet() {
   );
 }
 
-const Maindiv = styled.div`
+const Maindiv = styled.div<{ planet?: Planet }>`
+  .planets-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @media (min-width: 1440px) {
+      flex-direction: row;
+      justify-content: space-evenly;
+      max-width: 1440px;
+      margin: auto;
+    }
+  }
   .header-box {
     display: flex;
     justify-content: space-between;
     padding: 1.25rem 1.5rem;
+    width: 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-
+    @media (min-width: 770px) {
+      display: none;
+    }
     span {
       color: #fff;
       text-align: center;
@@ -157,12 +204,73 @@ const Maindiv = styled.div`
       visibility: visible;
     }
   }
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    max-height: 500px;
+    @media (min-width: 770px) {
+      height: 300px;
+      max-width: 700px;
+    }
+    .planet-geogly {
+      width: 80px;
+      height: 80px;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -30%);
+      top: 70%;
+      z-index: 1;
+      @media (min-width: 740px) {
+        width: 130px;
+        height: 130px;
+      }
+      @media (min-width: 1340px) {
+        width: 150px;
+        height: 170px;
+        transform: translate(-50%, -10%);
+      }
+    }
+    img {
+      max-height: 500px;
+      max-width: 500px;
+      @media (min-width: 740px) {
+        max-height: 350px;
+        max-width: 350px;
+      }
+      @media (min-width: 1440px) {
+        max-height: 500px;
+        max-width: 500px;
+      }
+    }
+    .planetstyle {
+      width: ${(props) => props.planet?.design?.overview_mobile};
+      @media (min-width: 740px) {
+        width: ${(props) => props.planet?.design?.overview_tablet};
+      }
+      @media (min-width: 1440px) {
+        width: ${(props) => props.planet?.design?.overview_desktop};
+      }
+    }
+  }
 
   .information {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     @media (min-width: 770px) {
       display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 20px;
+      text-align: unset;
     }
-
+    @media (min-width: 1440px) {
+      flex-direction: column;
+    }
     .only {
       display: flex;
       flex-direction: column;
@@ -170,25 +278,46 @@ const Maindiv = styled.div`
       padding: 20px;
       align-items: center;
       justify-content: center;
+      @media (min-width: 770px) {
+        width: 350px;
+        align-items: unset;
+      }
       h1 {
         color: #ffffff;
-        text-align: center;
+
         font-family: Antonio;
         font-size: 40px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
         text-transform: uppercase;
+        @media (min-width: 1440px) {
+          color: #fff;
+          font-family: Antonio;
+          font-size: 80px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          text-transform: uppercase;
+        }
       }
       p {
         color: #fff;
-        text-align: center;
+
         /* font-family: Spartan; */
         font-size: 11px;
         font-style: normal;
         opacity: 0.5;
         font-weight: 400;
         line-height: 22px;
+        @media (min-width: 1440px) {
+          color: #fff;
+          font-family: Spartan;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 25px; /* 178.571% */
+        }
       }
     }
     h4 {
@@ -214,8 +343,9 @@ const Maindiv = styled.div`
     .info-2 {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      visibility: hidden;
+
+      display: none;
+
       .infooo {
         width: 250px;
         height: 40px;
@@ -224,7 +354,14 @@ const Maindiv = styled.div`
         padding: 10px;
         align-items: center;
         gap: 10px;
+
         border: 1px solid #fff;
+        @media (min-width: 1440px) {
+          width: 350px;
+          height: 48px;
+          flex-shrink: 0;
+          gap: 20px;
+        }
         span {
           color: #fff;
           font-family: Spartan;
@@ -246,8 +383,19 @@ const Maindiv = styled.div`
           text-transform: uppercase;
         }
       }
-      @media (min-width: 770px) {
-        visibility: visible;
+      .infoo:hover {
+        background-color: aqua;
+      }
+      @media (min-width: 740px) {
+        display: block;
+        padding: 20px;
+        gap: 20px;
+        display: flex;
+      }
+      @media (min-width: 1440px) {
+        padding: 20px;
+        gap: 20px;
+        display: flex;
       }
     }
   }
@@ -259,6 +407,12 @@ const Maindiv = styled.div`
     gap: 1rem;
     margin-top: 1.75rem;
     margin-bottom: 2.76rem;
+    @media (min-width: 770px) {
+      flex-direction: row;
+    }
+    @media (min-width: 1440px) {
+      flex-direction: row;
+    }
     div {
       display: flex;
       justify-content: space-between;
@@ -266,7 +420,12 @@ const Maindiv = styled.div`
       width: 100%;
       border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 1rem 1.5rem;
-
+      @media (min-width: 770px) {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 255px;
+        padding: 2rem 1.5rem 2.7rem 2.3rem;
+      }
       .common-info-title {
         color: #fff;
         font-size: 0.5rem;
@@ -276,6 +435,16 @@ const Maindiv = styled.div`
         letter-spacing: 0.04544rem;
         text-transform: uppercase;
         opacity: 0.5;
+        @media (min-width: 1440px) {
+          color: #fff;
+          font-family: Spartan;
+          font-size: 11px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 25px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
       }
 
       .common-info {
@@ -287,6 +456,16 @@ const Maindiv = styled.div`
         line-height: normal;
         letter-spacing: -0.04688rem;
         text-transform: uppercase;
+        @media (min-width: 1440px) {
+          color: #fff;
+          font-family: Antonio;
+          font-size: 40px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          letter-spacing: -1.5px;
+          text-transform: uppercase;
+        }
       }
     }
   }

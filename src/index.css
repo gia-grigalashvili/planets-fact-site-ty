@@ -10,6 +10,6 @@
 body {
   font-family: "Antonio", sans-serif; /* Using Antonio as the primary font */
   background: #070724;
-  background-image: url(/public/img/background-stars.svg);
+  background-image: url(/public/assets/background-stars.svg);
   background-repeat: no-repeat;
 }

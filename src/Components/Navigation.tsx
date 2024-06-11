@@ -15,7 +15,9 @@ function Navigation() {
   return (
     <Header>
       <div className="only">
-        <h1 className="headername">THE PLANETS</h1>
+        <Link to="/earth" className="headername-link">
+          <h1 className="headername">THE PLANETS</h1>
+        </Link>
         <img
           className="burger"
           src={hamburger}
@@ -25,7 +27,7 @@ function Navigation() {
       </div>
 
       <Nav className={`nav ${isOpen ? "open" : ""}`}>
-        <ul>
+        <ul className={`ul ${isOpen ? "open" : ""}`}>
           {data.map((planet, index) => (
             <Link key={index} to={`/${planet.name.toLowerCase()}`}>
               <li>
@@ -44,6 +46,16 @@ function Navigation() {
 }
 
 const Header = styled.header`
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #070724; /* Set the background color here */
+  z-index: 100;
+  @media (min-width: 1440px) {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    justify-content: space-between;
+  }
   .only {
     padding: 20px;
     display: flex;
@@ -69,6 +81,10 @@ const Header = styled.header`
     text-transform: uppercase;
   }
 
+  .headername-link {
+    text-decoration: none;
+  }
+
   .burger {
     width: 24px;
     height: 17px;
@@ -91,8 +107,11 @@ const Header = styled.header`
       justify-content: flex-end;
       gap: 20px;
       @media (min-width: 770px) {
-        justify-content: center;
-        width: 100%;
+        justify-content: space-between;
+        flex-direction: column;
+      }
+      @media (min-width: 1440px) {
+        justify-content: space-between;
       }
     }
     .nav ul {
@@ -111,13 +130,15 @@ const Header = styled.header`
 `;
 
 const Nav = styled.nav`
+  z-index: 99;
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 60px;
   left: 0;
-  height: 100vh;
   width: 100%;
+  height: 100vh;
+
   background: #070724;
   padding: 10px;
   border-radius: 8px;
@@ -127,10 +148,15 @@ const Nav = styled.nav`
 
   @media (min-width: 740px) {
     border-bottom: 1px solid gray;
+    border-bottom: unset;
+    padding: 40px;
+    z-index: 99;
   }
+
   &.open {
     transform: translateX(0);
     z-index: 10;
+    position: fixed;
   }
 
   ul {
@@ -177,6 +203,8 @@ const Nav = styled.nav`
   a {
     text-decoration: none;
   }
+
+  // Adjusted styles for full screen height
 `;
 
 interface ColorProps {
