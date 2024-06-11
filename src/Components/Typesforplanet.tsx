@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
 import arrow from "/public/assets/icon-source.svg";
+
 interface Planet {
   name: string;
   rotation: string;
@@ -33,31 +34,31 @@ interface Planet {
     overview_desktop: string;
   };
 }
-function Typesforplanet() {
-  const [images, setImages] = useState("overview");
-  const params = useParams();
+
+interface Params extends Record<string, string | undefined> {
+  planet: string;
+}
+
+const Typesforplanet: React.FC = () => {
+  const [images, setImages] = useState<string>("overview");
+  const params = useParams<Params>();
   const planetName = params.planet;
 
-  // const planet = data.find((object) => object.name === planetName);
   const planet = data.find(
     (object) => object.name.toLowerCase() === planetName?.toLowerCase()
   );
+
   const handleOverview = () => {
     setImages("overview");
-    setOpacity(opacity);
   };
 
   const handleStructure = () => {
     setImages("structure");
-    setOpacity(opacity);
   };
 
   const handleGeology = () => {
     setImages("geology");
-    setOpacity(opacity);
   };
-
-  const [opacity, setOpacity] = useState(true);
 
   return (
     <Maindiv planet={planet}>
@@ -70,37 +71,44 @@ function Typesforplanet() {
         <div className="info">
           <div>
             <img
-              // style={{ width: planet?.design?.overview_mobile }}
               className="planetstyle"
               src={
-                (images == "structure" && planet?.images.internal) ||
-                (images == "geology" && planet?.images.planet) ||
-                (images == "overview" && planet?.images.planet)
+                images === "structure"
+                  ? planet?.images.internal
+                  : images === "geology"
+                  ? planet?.images.planet
+                  : images === "overview"
+                  ? planet?.images.planet
+                  : undefined
               }
               alt={planetName}
             />
-            {images == "geology" ? (
+            {images === "geology" && (
               <img src={planet?.images.geology} className="planet-geogly" />
-            ) : null}
+            )}
           </div>
         </div>
         <div className="information">
           <div className="only">
             <h1>{planet?.name}</h1>
-            <p>{planet?.overview?.content}</p>
+            <p>{planet?.overview.content}</p>
             <h4 className="wikiped">
-              Source :
+              Source:
               <a
                 href={
-                  (images == "structure" && planet?.structure.source) ||
-                  (images == "geology" && planet?.geology.source) ||
-                  (images == "overview" && planet?.images.geology)
+                  images === "structure"
+                    ? planet?.structure.source
+                    : images === "geology"
+                    ? planet?.geology.source
+                    : images === "overview"
+                    ? planet?.overview.source
+                    : undefined
                 }
               >
                 <p>wikipedia</p>
               </a>
               <div>
-                <img src={arrow} alt="" />
+                <img src={arrow} alt="arrow" />
               </div>
             </h4>
           </div>
@@ -143,7 +151,7 @@ function Typesforplanet() {
       </div>
     </Maindiv>
   );
-}
+};
 
 const Maindiv = styled.div<{ planet?: Planet }>`
   .planets-div {
