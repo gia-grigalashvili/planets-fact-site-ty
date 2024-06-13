@@ -13,7 +13,7 @@ function Navigation() {
   };
 
   return (
-    <Header>
+    <Header isOpen={isOpen}>
       <div className="only">
         <Link to="/earth" className="headername-link">
           <h1 className="headername">THE PLANETS</h1>
@@ -45,12 +45,14 @@ function Navigation() {
   );
 }
 
-const Header = styled.header`
+const Header = styled.header<{ isOpen: boolean }>`
   top: 0;
   left: 0;
   width: 100%;
   background: #070724; /* Set the background color here */
   z-index: 100;
+  position: ${(props) => (props.isOpen ? "fixed" : "static")};
+
   @media (min-width: 1440px) {
     display: flex;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
